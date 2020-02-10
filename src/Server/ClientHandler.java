@@ -1,5 +1,5 @@
 
-package ftp;
+package Server;
 import java.io.*; 
 import java.util.*; 
 import java.net.*; 
@@ -12,7 +12,8 @@ class ClientHandler implements Runnable
     final DataOutputStream dos; 
     Socket s; 
     boolean isloggedin; 
-      
+    String received;  
+    
     // constructor 
     public ClientHandler(Socket s, String name, DataInputStream dis, DataOutputStream dos) { 
         this.dis = dis; 
@@ -25,7 +26,15 @@ class ClientHandler implements Runnable
     @Override
     public void run() { 
   
-        String received; 
+        try{
+            String m= '#'+this.name;
+            dos.writeUTF(m);
+            System.out.println("ClientID sent");
+        
+        }catch(Exception e){
+            System.out.println("problem in sending clientID");
+        }
+        
         while (true)  
         { 
             try
@@ -42,7 +51,7 @@ class ClientHandler implements Runnable
                   
                 // break the string into message and recipient part 
                 StringTokenizer st = new StringTokenizer(received, "#"); 
-                String MsgToSend = st.nextToken(); 
+                String MsgToSend = this.name + ":" + st.nextToken(); 
                 String recipient = st.nextToken(); 
   
                 // search for the recipient in the connected devices list. 
@@ -57,7 +66,7 @@ class ClientHandler implements Runnable
                         break; 
                     } 
                 } 
-            } catch (IOException e) {   
+            } catch (Exception e) {   
                 System.out.println("Problem in recieving or sending text further"); 
             } 
               
