@@ -72,24 +72,32 @@ public class Client extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         selectButton = new javax.swing.JButton();
-        sendButton = new javax.swing.JButton();
+        sendMsgButton = new javax.swing.JButton();
         textBox = new javax.swing.JTextField();
         displayLabel = new javax.swing.JLabel();
         clientIDLabel = new javax.swing.JLabel();
+        sendFileButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        selectButton.setText("Select");
+        selectButton.setText("Select File");
         selectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectButtonActionPerformed(evt);
             }
         });
 
-        sendButton.setText("Send");
-        sendButton.addActionListener(new java.awt.event.ActionListener() {
+        sendMsgButton.setText("Send Msg");
+        sendMsgButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendButtonActionPerformed(evt);
+                sendMsgButtonActionPerformed(evt);
+            }
+        });
+
+        sendFileButton.setText("Send File");
+        sendFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendFileButtonActionPerformed(evt);
             }
         });
 
@@ -105,13 +113,16 @@ public class Client extends javax.swing.JFrame {
                             .addComponent(displayLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(textBox, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(76, 76, 76)
-                                .addComponent(selectButton)
-                                .addGap(63, 63, 63)
-                                .addComponent(sendButton))))
+                                .addGap(30, 30, 30)
+                                .addComponent(sendMsgButton))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(337, 337, 337)
-                        .addComponent(clientIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(clientIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(selectButton)
+                        .addGap(47, 47, 47)
+                        .addComponent(sendFileButton)))
                 .addContainerGap(91, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -122,11 +133,14 @@ public class Client extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectButton)
-                    .addComponent(sendButton))
+                    .addComponent(sendMsgButton))
                 .addGap(34, 34, 34)
                 .addComponent(displayLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(selectButton)
+                    .addComponent(sendFileButton))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -143,7 +157,7 @@ public class Client extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+    private void sendMsgButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMsgButtonActionPerformed
         
         try{
             String msg= textBox.getText();
@@ -154,7 +168,7 @@ public class Client extends javax.swing.JFrame {
         }catch(Exception e){
             System.out.println("Problem in sending text");
         }
-    }//GEN-LAST:event_sendButtonActionPerformed
+    }//GEN-LAST:event_sendMsgButtonActionPerformed
 
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
        JFileChooser fileChooser = new JFileChooser();
@@ -162,6 +176,10 @@ public class Client extends javax.swing.JFrame {
        File f=fileChooser.getSelectedFile();
        
     }//GEN-LAST:event_selectButtonActionPerformed
+
+    private void sendFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendFileButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sendFileButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,7 +222,8 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JLabel displayLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton selectButton;
-    private javax.swing.JButton sendButton;
+    private javax.swing.JButton sendFileButton;
+    private javax.swing.JButton sendMsgButton;
     private javax.swing.JTextField textBox;
     // End of variables declaration//GEN-END:variables
 }

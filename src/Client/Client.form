@@ -46,16 +46,20 @@
                               <Component id="displayLabel" min="-2" pref="679" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Component id="textBox" min="-2" pref="415" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
-                                  <Component id="selectButton" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                                  <Component id="sendButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="sendMsgButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="337" max="-2" attributes="0"/>
                           <Component id="clientIDLabel" min="-2" pref="121" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
+                          <Component id="selectButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                          <Component id="sendFileButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="91" max="32767" attributes="0"/>
@@ -70,12 +74,16 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="textBox" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="selectButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="sendButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="sendMsgButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                   <Component id="displayLabel" min="-2" pref="214" max="-2" attributes="0"/>
-                  <EmptySpace pref="156" max="32767" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="selectButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="sendFileButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="106" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -83,18 +91,18 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="selectButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Select"/>
+            <Property name="text" type="java.lang.String" value="Select File"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="sendButton">
+        <Component class="javax.swing.JButton" name="sendMsgButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Send"/>
+            <Property name="text" type="java.lang.String" value="Send Msg"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sendButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sendMsgButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="textBox">
@@ -102,6 +110,14 @@
         <Component class="javax.swing.JLabel" name="displayLabel">
         </Component>
         <Component class="javax.swing.JLabel" name="clientIDLabel">
+        </Component>
+        <Component class="javax.swing.JButton" name="sendFileButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Send File"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sendFileButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
