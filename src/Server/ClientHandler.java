@@ -29,10 +29,10 @@ class ClientHandler implements Runnable
         try{
             String m= '#'+this.name;
             dos.writeUTF(m);
-            System.out.println("ClientID sent");
+            System.out.println("5.ClientID sent");
         
         }catch(Exception e){
-            System.out.println("problem in sending clientID");
+            System.out.println("5.problem in sending clientID");
         }
         
         while (true)  
@@ -41,7 +41,7 @@ class ClientHandler implements Runnable
             { 
                 // receive the string 
                 received = dis.readUTF(); 
-                System.out.println("msg recieved"+received); 
+                System.out.println("6.msg recieved: "+received); 
                   
                 if(received.equals("logout")){ 
                     this.isloggedin=false; 
@@ -53,6 +53,7 @@ class ClientHandler implements Runnable
                 StringTokenizer st = new StringTokenizer(received, "#"); 
                 String MsgToSend = this.name + ":" + st.nextToken(); 
                 String recipient = st.nextToken(); 
+                String type = st.nextToken();
   
                 // search for the recipient in the connected devices list. 
                 // ar is the vector storing client of active users 
@@ -62,12 +63,15 @@ class ClientHandler implements Runnable
                     // output stream 
                     if (mc.name.equals(recipient) && mc.isloggedin==true)  
                     { 
-                        mc.dos.writeUTF(MsgToSend); 
-                        break; 
+                        switch(type)
+                        {
+                            case "msg": mc.dos.writeUTF(MsgToSend+"#"+type); 
+                                break;
+                        }
                     } 
                 } 
             } catch (Exception e) {   
-                System.out.println("Problem in recieving or sending text further"); 
+                System.out.println("7.Problem in recieving or sending text further"); 
             } 
               
         } 

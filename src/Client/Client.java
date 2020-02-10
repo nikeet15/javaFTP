@@ -29,31 +29,42 @@ public class Client extends javax.swing.JFrame {
             dis = new DataInputStream(s.getInputStream()); 
             dos = new DataOutputStream(s.getOutputStream());
         
-        // readMessage thread 
+            // readMessage thread 
             Thread readMessage = new Thread(new Runnable()  
             { 
                 @Override
                 public void run() { 
                     
                     while (true) { 
-                        try { 
-                            // read the message sent to this client 
-                            String msg = dis.readUTF(); 
-                            System.out.println(msg);
+                    try { 
+                        // read the message sent to this client 
+                        String msg = dis.readUTF(); 
+                        System.out.println(msg);
                             
-                            if(msg.charAt(0)=='#')
-                                clientIDLabel.setText(msg);
+                        if(msg.charAt(0)=='#')
+                           clientIDLabel.setText(msg);
                             
-                            else
-                                displayLabel.setText(msg);
+                        else
+                        {
+                            StringTokenizer st = new StringTokenizer(msg, "#"); 
+                            String received = st.nextToken(); 
+                            String type = st.nextToken();
+                                
+                            switch(type)
+                            {
+                                case "msg": displayLabel.setText(received);
+                                break;
+                            }
+                                
+                        }
                             
-                        } catch (Exception e) { 
-  
-                            e.printStackTrace(); 
-                        } 
+                    } catch (Exception e) { 
+                        System.out.println("problem in sending text");
+                             
                     } 
                 } 
-            }); 
+            } 
+        }); 
    
         readMessage.start();
     
@@ -161,9 +172,12 @@ public class Client extends javax.swing.JFrame {
         
         try{
             String msg= textBox.getText();
+            if(!msg.contentEquals("logout"))
+                msg=msg+"#msg";
+                
             dos.writeUTF(msg);
             
-            System.out.println("sent"+msg);
+            System.out.println("sent: "+msg);
         
         }catch(Exception e){
             System.out.println("Problem in sending text");

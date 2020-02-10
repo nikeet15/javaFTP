@@ -16,24 +16,22 @@ public class Server
     { 
         // server is listening on port 1234 
         ServerSocket ss = new ServerSocket(3333); 
-          
         Socket s; 
           
         // running infinite loop for getting 
         // client request 
-        System.out.println("waiting for client");
+        System.out.println("1.waiting for client");
         while (true)  
         { 
             // Accept the incoming request 
             s = ss.accept(); 
-  
-            System.out.println("New client request received : " + s); 
+            System.out.println("2.New client request received : " + s); 
               
             // obtain input and output streams 
             DataInputStream dis = new DataInputStream(s.getInputStream()); 
             DataOutputStream dos = new DataOutputStream(s.getOutputStream()); 
               
-            System.out.println("Creating a new handler for this client..."); 
+            System.out.println("3.Creating a new handler for this client..."); 
   
             // Create a new handler object for handling this request. 
             ClientHandler mtch = new ClientHandler(s,"client" + i, dis, dos); 
@@ -41,7 +39,7 @@ public class Server
             // Create a new Thread with this object. 
             Thread t = new Thread(mtch); 
               
-            System.out.println("Adding this client to active client list"); 
+            System.out.println("4.Adding this client to active client list"); 
   
             // add this client to active clients list 
             ar.add(mtch); 
