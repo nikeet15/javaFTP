@@ -3,6 +3,8 @@ package Client;
 import java.io.*; 
 import java.util.*; 
 import java.net.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 public class Client extends javax.swing.JFrame {
@@ -13,6 +15,9 @@ public class Client extends javax.swing.JFrame {
     Socket s;  
     DataInputStream dis;
     DataOutputStream dos;
+    FileInputStream fis;
+    FileOutputStream fos;
+    File f;
         
     /**
      * Creates new form Client
@@ -26,7 +31,7 @@ public class Client extends javax.swing.JFrame {
             ip = InetAddress.getByName("localhost");
             scn = new Scanner(System.in);
             s = new Socket(ip, 3333);
-            dis = new DataInputStream(s.getInputStream()); 
+            dis =  new DataInputStream(s.getInputStream()); 
             dos = new DataOutputStream(s.getOutputStream());
         
             // readMessage thread 
@@ -38,26 +43,32 @@ public class Client extends javax.swing.JFrame {
                     while (true) { 
                     try { 
                         // read the message sent to this client 
-                        String msg = dis.readUTF(); 
-                        System.out.println(msg);
-                            
-                        if(msg.charAt(0)=='#')
-                           clientIDLabel.setText(msg);
-                            
-                        else
+                        int type = Integer.parseInt(dis.readUTF());
+                        
+                        if(type==21)
                         {
-                            StringTokenizer st = new StringTokenizer(msg, "#"); 
-                            String received = st.nextToken(); 
-                            String type = st.nextToken();
-                                
-                            switch(type)
-                            {
-                                case "msg": displayLabel.setText(received);
-                                break;
-                            }
-                                
+                            String msg = dis.readUTF(); 
+                            System.out.println(msg);
+                            clientIDLabel.setText(msg);
                         }
+                        
+                        else if(type==22)
+                        {   String msg = dis.readUTF(); 
+                            System.out.println(msg);
+                            displayLabel.setText(msg);
+                        }
+                        
+                        else if(type==23)
+                        {
+                            fos= new FileOutputStream("C:\\Users\\acer\\Desktop\\file2.txt");
+                            byte [] b= new byte[20003];
+                            dis.read(b,0,b.length);
+                            fos.write(b,0,b.length);
                             
+                            System.out.println("file recieved");
+                            displayLabel.setText("file recieved");
+                        }
+                        
                     } catch (Exception e) { 
                         System.out.println("problem in sending text");
                              
@@ -172,11 +183,13 @@ public class Client extends javax.swing.JFrame {
         
         try{
             String msg= textBox.getText();
-            if(!msg.contentEquals("logout"))
-                msg=msg+"#msg";
+            if(msg.contentEquals("logout"))
+                dos.writeUTF(Integer.toString(11));
+            
+            else
+                dos.writeUTF(Integer.toString(12));
                 
             dos.writeUTF(msg);
-            
             System.out.println("sent: "+msg);
         
         }catch(Exception e){
@@ -187,12 +200,26 @@ public class Client extends javax.swing.JFrame {
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
        JFileChooser fileChooser = new JFileChooser();
        fileChooser.showOpenDialog(null);
-       File f=fileChooser.getSelectedFile();
+       f=fileChooser.getSelectedFile();
        
     }//GEN-LAST:event_selectButtonActionPerformed
 
     private void sendFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendFileButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            
+            System.out.println("file path: "+f.getAbsolutePath());
+            dos.writeUTF(Integer.toString(13));
+            dos.writeUTF(textBox.getText());
+            fis= new FileInputStream(f);
+            byte[] b= new byte[(int)f.length()];
+            fis.read(b,0,b.length);
+            dos.write(b, 0, b.length);
+            
+            System.out.println("sending file to "+textBox.getText());
+        
+        } catch (Exception ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_sendFileButtonActionPerformed
 
     /**
