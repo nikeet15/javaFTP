@@ -80,12 +80,18 @@ class ClientHandler implements Runnable
                 
                 else if(type==13)
                 {
-                    String recipient= dis.readUTF();
-                    System.out.println("6.file recieved recipient: "+recipient);
+                    String recext= dis.readUTF();                                   //read recipient#ext
+                    StringTokenizer st = new StringTokenizer(recext, "#"); 
+                    String recipient = st.nextToken(); 
+                    String ext = st.nextToken();
                     
-                    fos= new FileOutputStream("C:\\Users\\acer\\Desktop\\file1.txt");
-                    byte [] b= new byte[20003];
-                    dis.read(b,0,b.length);
+                    int siz= Integer.parseInt(dis.readUTF());                       //read size
+                    System.out.println("6.file recieved recipient: "+recipient+" "+siz+" "+ext);
+                    
+                    File f= new File("C:\\Users\\acer\\Desktop\\file1."+ext);
+                    fos= new FileOutputStream(f);
+                    byte [] b= new byte[siz];
+                    dis.read(b,0,b.length);                                         //read file
                     fos.write(b,0,b.length);
                     
                     for (ClientHandler mc : Server.ar)  
@@ -95,10 +101,10 @@ class ClientHandler implements Runnable
                         if (mc.name.equals(recipient) && mc.isloggedin==true)  
                         {   
                             mc.dos.writeUTF(Integer.toString(23));
-                            fis= new FileInputStream("C:\\Users\\acer\\Desktop\\file1.txt");
-                            byte[] b1= new byte[20003];
-                            fis.read(b1,0,b1.length);
-                            mc.dos.write(b1, 0, b1.length);
+                            fis= new FileInputStream(f);
+                            fis.read(b,0,b.length);
+                            mc.dos.writeUTF(Integer.toString(siz)+"#"+ext);         //send size and extension
+                            mc.dos.write(b, 0, b.length);                           //send file
                             System.out.println("6.file sent");
                             break;
                         } 

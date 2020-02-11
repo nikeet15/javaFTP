@@ -60,12 +60,17 @@ public class Client extends javax.swing.JFrame {
                         
                         else if(type==23)
                         {
-                            fos= new FileOutputStream("C:\\Users\\acer\\Desktop\\file2.txt");
-                            byte [] b= new byte[20003];
+                            String sizext= dis.readUTF();               
+                            StringTokenizer st = new StringTokenizer(sizext, "#");              //read siz#ext 
+                            int siz = Integer.parseInt(st.nextToken()); 
+                            String ext = st.nextToken();
+                            fos= new FileOutputStream("C:\\Users\\acer\\Desktop\\file2."+ext);
+                            
+                            byte [] b= new byte[siz];                                           //read file
                             dis.read(b,0,b.length);
                             fos.write(b,0,b.length);
                             
-                            System.out.println("file recieved");
+                            System.out.println("file recieved "+siz+" "+ext);
                             displayLabel.setText("file recieved");
                         }
                         
@@ -208,12 +213,17 @@ public class Client extends javax.swing.JFrame {
         try {
             
             System.out.println("file path: "+f.getAbsolutePath());
+            StringTokenizer st = new StringTokenizer(f.getAbsolutePath(), "."); 
+            String s = st.nextToken(); 
+            String ext = st.nextToken();
+            
             dos.writeUTF(Integer.toString(13));
-            dos.writeUTF(textBox.getText());
+            dos.writeUTF(textBox.getText()+"#"+ext);            //send recipient and file extension
             fis= new FileInputStream(f);
             byte[] b= new byte[(int)f.length()];
             fis.read(b,0,b.length);
-            dos.write(b, 0, b.length);
+            dos.writeUTF(Integer.toString(b.length));   //send size of file
+            dos.write(b, 0, b.length);                  //send file
             
             System.out.println("sending file to "+textBox.getText());
         
