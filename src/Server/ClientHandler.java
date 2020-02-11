@@ -84,15 +84,30 @@ class ClientHandler implements Runnable
                     StringTokenizer st = new StringTokenizer(recext, "#"); 
                     String recipient = st.nextToken(); 
                     String ext = st.nextToken();
-                    
-                    int siz= Integer.parseInt(dis.readUTF());                       //read size
-                    System.out.println("6.file recieved recipient: "+recipient+" "+siz+" "+ext);
-                    
+                      
                     File f= new File("C:\\Users\\acer\\Desktop\\file1."+ext);
                     fos= new FileOutputStream(f);
-                    byte [] b= new byte[siz];
-                    dis.read(b,0,b.length);                                         //read file
-                    fos.write(b,0,b.length);
+                    
+                    long totsiz= Long.parseLong(dis.readUTF());                       //read size
+                    long buffer= 65536;
+                    long cur= 0;
+                    byte [] b= new byte[(int)buffer];
+                    
+                    while(cur<totsiz)                                           //recieving file in chunks
+                    {
+                        long siztorec= totsiz-cur;
+                        siztorec = siztorec < buffer ? siztorec : buffer;
+      
+                        int numRead= dis.read(b, 0, (int)siztorec);
+                        
+                        if(numRead ==-1 ) break;
+ 
+                        fos.write(b,0,b.length);
+                        cur += numRead;
+                    }
+                    
+                    
+                    System.out.println("6.file recieved recipient: "+recipient+" "+totsiz+" "+ext);
                     
                     for (ClientHandler mc : Server.ar)  
                     { 
@@ -102,9 +117,22 @@ class ClientHandler implements Runnable
                         {   
                             mc.dos.writeUTF(Integer.toString(23));
                             fis= new FileInputStream(f);
-                            fis.read(b,0,b.length);
-                            mc.dos.writeUTF(Integer.toString(siz)+"#"+ext);         //send size and extension
-                            mc.dos.write(b, 0, b.length);                           //send file
+                            mc.dos.writeUTF(Long.toString(totsiz)+"#"+ext);         //send size and extension
+                            
+                            cur= 0;
+            
+                            while(cur<totsiz)                                           //sending file in chunks
+                            {
+                                long siztosend= totsiz-cur;
+                                siztosend = siztosend < buffer ? siztosend : buffer;
+                                int numRead = fis.read(b, 0, (int)siztosend);
+                
+                                if(numRead ==-1 ) break;
+ 
+                                mc.dos.write(b,0,numRead);
+                                cur += numRead;
+                            }
+                            
                             System.out.println("6.file sent");
                             break;
                         } 

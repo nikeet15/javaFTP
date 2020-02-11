@@ -62,15 +62,28 @@ public class Client extends javax.swing.JFrame {
                         {
                             String sizext= dis.readUTF();               
                             StringTokenizer st = new StringTokenizer(sizext, "#");              //read siz#ext 
-                            int siz = Integer.parseInt(st.nextToken()); 
+                            long totsiz = Long.parseLong(st.nextToken()); 
                             String ext = st.nextToken();
                             fos= new FileOutputStream("C:\\Users\\acer\\Desktop\\file2."+ext);
                             
-                            byte [] b= new byte[siz];                                           //read file
-                            dis.read(b,0,b.length);
-                            fos.write(b,0,b.length);
+                            long buffer= 65536;
+                            long cur= 0;
+                            byte [] b= new byte[(int)buffer];
+                    
+                            while(cur<totsiz)                                           //recieving file in chunks
+                            {
+                                long siztorec= totsiz-cur;
+                                siztorec = siztorec < buffer ? siztorec : buffer;
+      
+                                int numRead= dis.read(b, 0, (int)siztorec);
+                        
+                                if(numRead ==-1 ) break;
+ 
+                                fos.write(b,0,b.length);
+                                cur += numRead;
+                            }
                             
-                            System.out.println("file recieved "+siz+" "+ext);
+                            System.out.println("file recieved "+totsiz+" "+ext);
                             displayLabel.setText("file recieved");
                         }
                         
@@ -218,14 +231,28 @@ public class Client extends javax.swing.JFrame {
             String ext = st.nextToken();
             
             dos.writeUTF(Integer.toString(13));
-            dos.writeUTF(textBox.getText()+"#"+ext);            //send recipient and file extension
-            fis= new FileInputStream(f);
-            byte[] b= new byte[(int)f.length()];
-            fis.read(b,0,b.length);
-            dos.writeUTF(Integer.toString(b.length));   //send size of file
-            dos.write(b, 0, b.length);                  //send file
+            dos.writeUTF(textBox.getText()+"#"+ext);                   //send recipient and file extension
+            dos.writeUTF(Long.toString((long)f.length()));           //send size of file
             
-            System.out.println("sending file to "+textBox.getText());
+            fis= new FileInputStream(f);
+            long totsiz= (int)f.length();
+            long buffer= 65536;
+            long cur= 0;
+            byte[] b= new byte[(int)buffer];
+            
+            while(cur<totsiz)                                           //sending file in chunks
+            {
+                long siztosend= totsiz-cur;
+                siztosend = siztosend < buffer ? siztosend : buffer;
+                int numRead = fis.read(b, 0, (int)siztosend);
+                
+                if(numRead ==-1 ) break;
+ 
+                dos.write(b,0,numRead);
+                cur += numRead;
+            }
+            
+            System.out.println("sent file to "+textBox.getText());
         
         } catch (Exception ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
