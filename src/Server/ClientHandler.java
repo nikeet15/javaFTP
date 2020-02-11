@@ -102,7 +102,7 @@ class ClientHandler implements Runnable
                         
                         if(numRead ==-1 ) break;
  
-                        fos.write(b,0,b.length);
+                        fos.write(b,0,numRead);
                         cur += numRead;
                     }
                     
