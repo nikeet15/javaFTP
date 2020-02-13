@@ -12,7 +12,7 @@ public class Server
     // counter for clients 
     static int i = 0; 
   
-    public static void main(String[] args) throws IOException  
+    public static void main(String[] args) throws Exception  
     { 
         // server is listening on port 1234 
         ServerSocket ss = new ServerSocket(3333); 
@@ -26,7 +26,7 @@ public class Server
             // Accept the incoming request 
             s = ss.accept(); 
             System.out.println("2.New client request received : " + s); 
-              
+            
             // obtain input and output streams 
             DataInputStream dis = new DataInputStream(s.getInputStream()); 
             DataOutputStream dos = new DataOutputStream(s.getOutputStream()); 
@@ -52,6 +52,6 @@ public class Server
             // by any naming scheme 
             i++; 
   
-        } 
+        }
     } 
 } 

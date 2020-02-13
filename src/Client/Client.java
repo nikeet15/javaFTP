@@ -88,8 +88,8 @@ public class Client extends javax.swing.JFrame {
                         }
                         
                     } catch (Exception e) { 
-                        System.out.println("problem in sending text");
-                             
+                        System.out.println("problem in sending text or logged out");
+                        System.exit(0);
                     } 
                 } 
             } 
