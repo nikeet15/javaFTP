@@ -139,6 +139,19 @@ class ClientHandler implements Runnable
                     }
                 }
                 
+                else if(type == 14)
+                {
+                    dos.writeUTF(Integer.toString(24));
+                    dos.writeUTF(Integer.toString(Server.ar.size()));
+                    for (ClientHandler mc : Server.ar)  
+                    {  
+                        if (mc.isloggedin==true)  
+                            dos.writeUTF(mc.name);
+                    }
+                    
+                    System.out.println("6.sent allclients");
+                }
+                
             } catch (Exception e) {   
                 System.out.println("7.Problem in recieving or sending text further"); 
             } 

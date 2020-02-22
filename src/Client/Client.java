@@ -87,6 +87,20 @@ public class Client extends javax.swing.JFrame {
                             displayLabel.setText("file recieved");
                         }
                         
+                        else if(type == 24)
+                        {
+                            clientList.removeAll();
+                            int n= Integer.parseInt(dis.readUTF());
+                            System.out.println("size= "+n);
+                
+                            for (int i = 0; i < n; i++) {
+                                String x= dis.readUTF();    
+                                System.out.println(x);
+                                clientList.add(x);
+                            }
+                        System.out.println("Printed all available clients");
+                        }            
+                        
                     } catch (Exception e) { 
                         System.out.println("problem in sending text or logged out");
                         System.exit(0);
@@ -117,8 +131,7 @@ public class Client extends javax.swing.JFrame {
         displayLabel = new javax.swing.JLabel();
         clientIDLabel = new javax.swing.JLabel();
         sendFileButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        clientList = new javax.swing.JList<>();
+        clientList = new java.awt.List();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,17 +156,16 @@ public class Client extends javax.swing.JFrame {
             }
         });
 
-        clientList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         clientList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 clientListMouseEntered(evt);
             }
         });
-        jScrollPane1.setViewportView(clientList);
+        clientList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientListActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,34 +180,35 @@ public class Client extends javax.swing.JFrame {
                         .addGap(140, 140, 140)
                         .addComponent(selectButton)
                         .addGap(47, 47, 47)
-                        .addComponent(sendFileButton)))
-                .addContainerGap(343, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(sendFileButton))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(textBox, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(sendMsgButton))
-                    .addComponent(displayLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 627, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(textBox, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(sendMsgButton))
+                            .addComponent(displayLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 627, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
+                        .addComponent(clientList, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addComponent(clientIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(sendMsgButton))
                         .addGap(121, 121, 121)
                         .addComponent(displayLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(clientList, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(selectButton)
@@ -279,15 +292,18 @@ public class Client extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_sendFileButtonActionPerformed
 
+    private void clientListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientListActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientListActionPerformed
+
     private void clientListMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientListMouseEntered
-        
         try{
-                dos.writeUTF(Integer.toString(14));
-                int n= Integer.parseInt(dis.readUTF());
                 
+            dos.writeUTF(Integer.toString(14));
         
-        }catch(Exception e){
-            System.out.println("Problem in sending text");
+        }catch(Exception e)
+        {
+            System.out.println("problem in allclients");
         }
     }//GEN-LAST:event_clientListMouseEntered
 
@@ -329,10 +345,9 @@ public class Client extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel clientIDLabel;
-    private javax.swing.JList<String> clientList;
+    private java.awt.List clientList;
     private javax.swing.JLabel displayLabel;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton selectButton;
     private javax.swing.JButton sendFileButton;
     private javax.swing.JButton sendMsgButton;
