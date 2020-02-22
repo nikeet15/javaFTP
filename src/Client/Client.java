@@ -157,6 +157,9 @@ public class Client extends javax.swing.JFrame {
         });
 
         clientList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clientListMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 clientListMouseEntered(evt);
             }
@@ -293,7 +296,7 @@ public class Client extends javax.swing.JFrame {
     }//GEN-LAST:event_sendFileButtonActionPerformed
 
     private void clientListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientListActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_clientListActionPerformed
 
     private void clientListMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientListMouseEntered
@@ -306,6 +309,13 @@ public class Client extends javax.swing.JFrame {
             System.out.println("problem in allclients");
         }
     }//GEN-LAST:event_clientListMouseEntered
+
+    private void clientListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientListMouseClicked
+        
+        String s= clientList.getSelectedItem();
+        System.out.println(s+" selected client");
+        textBox.setText(s);
+    }//GEN-LAST:event_clientListMouseClicked
 
     /**
      * @param args the command line arguments
