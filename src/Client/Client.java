@@ -18,7 +18,8 @@ public class Client extends javax.swing.JFrame {
     FileInputStream fis;
     FileOutputStream fos;
     File f;
-        
+    String cl;    
+    
     /**
      * Creates new form Client
      */
@@ -132,6 +133,7 @@ public class Client extends javax.swing.JFrame {
         clientIDLabel = new javax.swing.JLabel();
         sendFileButton = new javax.swing.JButton();
         clientList = new java.awt.List();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -170,6 +172,10 @@ public class Client extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("ONLINE");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -194,7 +200,9 @@ public class Client extends javax.swing.JFrame {
                         .addComponent(sendMsgButton))
                     .addComponent(displayLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 611, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addComponent(clientList, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(clientList, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(26, 26, 26))
         );
         jPanel1Layout.setVerticalGroup(
@@ -207,7 +215,8 @@ public class Client extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textBox, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sendMsgButton))
+                            .addComponent(sendMsgButton)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(24, 24, 24)
                         .addComponent(displayLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -217,7 +226,7 @@ public class Client extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(selectButton)
                     .addComponent(sendFileButton))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -239,12 +248,16 @@ public class Client extends javax.swing.JFrame {
         try{
             String msg= textBox.getText();
             if(msg.contentEquals("logout"))
+            { 
                 dos.writeUTF(Integer.toString(11));
+                dos.writeUTF(msg);
+            }
             
             else
+            {
                 dos.writeUTF(Integer.toString(12));
-                
-            dos.writeUTF(msg);
+                dos.writeUTF(msg+"#"+cl);        
+            }
             System.out.println("sent: "+msg);
         
         }catch(Exception e){
@@ -268,7 +281,7 @@ public class Client extends javax.swing.JFrame {
             String ext = st.nextToken();
             
             dos.writeUTF(Integer.toString(13));
-            dos.writeUTF(textBox.getText()+"#"+ext);                   //send recipient and file extension
+            dos.writeUTF(cl+"#"+ext);                   //send recipient and file extension
             dos.writeUTF(Long.toString((long)f.length()));           //send size of file
             
             fis= new FileInputStream(f);
@@ -289,7 +302,7 @@ public class Client extends javax.swing.JFrame {
                 cur += numRead;
             }
             
-            System.out.println("sent file to "+textBox.getText());
+            System.out.println("sent file to "+cl);
         
         } catch (Exception ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -313,9 +326,9 @@ public class Client extends javax.swing.JFrame {
 
     private void clientListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientListMouseClicked
         
-        String s= clientList.getSelectedItem();
-        System.out.println(s+" selected client");
-        textBox.setText(s);
+        cl= clientList.getSelectedItem();
+        System.out.println(cl+" selected client");
+        //textBox.setText(cl);
     }//GEN-LAST:event_clientListMouseClicked
 
     /**
@@ -358,6 +371,7 @@ public class Client extends javax.swing.JFrame {
     private javax.swing.JLabel clientIDLabel;
     private java.awt.List clientList;
     private javax.swing.JLabel displayLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton selectButton;
     private javax.swing.JButton sendFileButton;
